@@ -25,6 +25,11 @@ const Header = () => {
       name: "Contact Us",
       path: "/contact",
     },
+    {
+      id:3,
+      name:"Bookings",
+      path:"/my-booking"
+    }
   ];
 
   const { user } = useKindeBrowserClient();
