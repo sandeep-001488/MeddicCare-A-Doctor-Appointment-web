@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 const BookingList = ({ bookingList, expired }) => {
-  console.log(bookingList);
+  // console.log(bookingList);
 
   const onCancelBooking = (item) => {
     GlobalApi.cancelAppointment(item.id).then((res) => {
@@ -79,9 +79,9 @@ const BookingList = ({ bookingList, expired }) => {
                   className={`${
                     expired ? "text-blue-200" : "text-blue-500"
                   } h-5 w-5`}
-                />{" "}
+                />
                 <span className="font-semibold">Appointment On:</span>
-                {moment(item.attributes.date).format("MMMM Do YYYY")}{" "}
+                {moment(item.attributes.date).format("MMMM Do YYYY")}
               </h2>
               <h2
                 className={

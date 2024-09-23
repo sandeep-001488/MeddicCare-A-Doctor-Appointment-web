@@ -1,5 +1,5 @@
-
 import React, { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import GlobalApi from "@/app/_utils/GlobalApi";
 import { toast } from "sonner";
-
+import moment from "moment/moment";
 
 const BookAppointment = ({ doctorData }) => {
   const [date, setDate] = useState(new Date());
@@ -26,6 +26,38 @@ const BookAppointment = ({ doctorData }) => {
   const { user } = useKindeBrowserClient();
 
   const [openDialog, setOpenDialog] = useState(false);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+  // const [isLessThanCurrentTime,setIsLessThanCurrentTime]=useState(false)
+
+  const convertTo24HourFormat = (time) => {
+    const [timePart, modifier] = time.split(" "); // Split into time and AM/PM
+    let [hours, minutes] = timePart.split(":").map(Number); // Split hours and minutes
+
+    // Convert based on AM/PM
+    if (modifier === "PM" && hours < 12) {
+      hours += 12; // Convert PM hours
+    }
+    if (modifier === "AM" && hours === 12) {
+      hours = 0; // Handle midnight case
+    }
+
+    // Return time in HH:mm format
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); 
+    return () => clearInterval(interval);
+  }, []);
+
+  // console.log(moment(currentTime).format("HH:mm"));
+  
 
   const savedBooking = () => {
     const data = {
@@ -38,18 +70,18 @@ const BookAppointment = ({ doctorData }) => {
         note: note,
       },
     };
+
     GlobalApi.bookAppointment(data).then((res) => {
-      // console.log("response", res);
       if (res) {
-        GlobalApi.sendEmail(data).then((res) => {
-          // console.log(res);
+        GlobalApi.sendEmail(data).then(() => {
+          toast("Booking confirmation will be sent on your email", {
+            style: {
+              backgroundColor: "blue",
+              color: "white",
+            },
+          });
         });
-        toast("Booking confirmation will be sent on your email", {
-          style: {
-            backgroundColor: "blue",
-            color: "white",
-          },
-        });
+
         setNote("");
         setOpenDialog(false);
       }
@@ -64,27 +96,76 @@ const BookAppointment = ({ doctorData }) => {
     getTime();
   }, []);
 
+  // const getTime = () => {
+  //   const timeList = [];
+  //   for (let i = 10; i <= 12; i++) {
+
+  //     timeList.push({
+  //       time: i + ":00 AM",
+  //     });
+      
+  //     timeList.push({
+  //       time: i + ":30 AM",
+  //     });
+  //   }
+
+  //   for (let i = 1; i <= 6; i++) {
+  //     timeList.push({
+  //       time: i + ":00 PM",
+  //     });
+  //     timeList.push({
+  //       time: i + ":30 PM",
+  //     });
+  //   }
+  //   setTimeSlot(timeList);
+  // };
+
   const getTime = () => {
     const timeList = [];
-    for (let i = 10; i <= 12; i++) {
+    for (let i = 10; i <= 11; i++) {
+      const time1 = convertTo24HourFormat(i + ":00 AM");
+      const time2 = convertTo24HourFormat(i + ":30 AM");
+
       timeList.push({
-        time: i + ":00 AM",
+        time: time1,
+        displayTime: i + ":00 AM",
       });
       timeList.push({
-        time: i + ":30 AM",
+        time: time2,
+        displayTime: i + ":30 AM",
       });
     }
+    
+     for (let i = 12; i <= 12; i++) {
+       const time1 = convertTo24HourFormat(i + ":00 PM");
+       const time2 = convertTo24HourFormat(i + ":30 PM");
+
+       timeList.push({
+         time: time1,
+         displayTime: i + ":00 PM",
+       });
+       timeList.push({
+         time: time2,
+         displayTime: i + ":30 PM",
+       });
+     }
 
     for (let i = 1; i <= 6; i++) {
+      const time1 = convertTo24HourFormat(i + ":00 PM");
+      const time2 = convertTo24HourFormat(i + ":30 PM");
+
       timeList.push({
-        time: i + ":00 PM",
+        time: time1,
+        displayTime: i + ":00 PM",
       });
       timeList.push({
-        time: i + ":30 PM",
+        time: time2,
+        displayTime: i + ":30 PM",
       });
     }
     setTimeSlot(timeList);
   };
+
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -123,7 +204,7 @@ const BookAppointment = ({ doctorData }) => {
                     Select Time Slot
                   </h2>
                   <div className="grid grid-cols-3 gap-3 border rounded-lg p-5 mt-1">
-                    {timeSlot?.map((item, index) => (
+                    {/* {timeSlot?.map((item, index) => (
                       <h2
                         key={index}
                         className={`p-2 border rounded-full text-center hover:bg-blue-500 hover:text-white cursor-pointer ${
@@ -135,7 +216,31 @@ const BookAppointment = ({ doctorData }) => {
                       >
                         {item.time}
                       </h2>
-                    ))}
+                    ))} */}
+                    {timeSlot?.map((item, index) => {
+                      const isDisabled =
+                        moment(currentTime).format("HH:mm") > item.time; // Compare current time
+
+                      return (
+                        <h2
+                          key={index}
+                          className={`p-2 border rounded-full text-center cursor-pointer ${
+                            item.time === selectedTimeSlot
+                              ? "bg-blue-500 text-white"
+                              : ""
+                          } ${
+                            isDisabled
+                              ? "opacity-50 cursor-not-allowed"
+                              : "hover:bg-blue-500 hover:text-white"
+                          }`}
+                          onClick={() =>
+                            !isDisabled && setSelectedTimeSlot(item.time)
+                          }
+                        >
+                          {item.displayTime}
+                        </h2>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
