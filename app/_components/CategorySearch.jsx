@@ -13,6 +13,7 @@ const CategorySearch = () => {
     getCategoryList();
   }, []);
 
+
   const getCategoryList = () => {
     GlobalApi.getCategory()
       .then((res) => {
@@ -21,7 +22,7 @@ const CategorySearch = () => {
         setCategoryList(res.data.data);
       })
       .catch((error) => {
-        console.error("Error fetching categories:", error);
+        console.error("Errorrr fetching categories:", error);
       });
   };
 
