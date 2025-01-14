@@ -32,7 +32,7 @@ const CategorySearch = () => {
         Search <span className="text-blue-500">Doctors</span>{" "}
       </h2>
       <h2 className="text-gray-500 text-xl">
-        Search and get your appointment in a click away...hello
+        Search and get your appointment in a click away..
       </h2>
       <div className="flex w-full mt-3 max-w-sm items-center space-x-2">
         <Input
