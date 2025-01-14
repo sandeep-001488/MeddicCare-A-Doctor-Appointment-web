@@ -25,7 +25,7 @@ const [doctorList,setDoctorList]=useState([]);
   }, []);
   
   return (
-    <div className="mt-10">
+    <div >
       <Hero />
       <CategorySearch />
       <DoctorList doctorList={doctorList} />
