@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
-        <div className="md:px-20">
+        <div className="md:px-20 mt-20">
           {children}
           <Toaster />
         </div>
