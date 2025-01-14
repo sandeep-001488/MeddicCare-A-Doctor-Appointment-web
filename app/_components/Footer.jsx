@@ -20,10 +20,9 @@ function Footer() {
           <li>
             <a
               className=" transition text-blue-700 font-bold hover:text-red-700"
-              href="https://portfolio-of-sandeep.netlify.app/"
+              href="https://unveiling-sandeep-horizon.netlify.app//"
               target="_blank"
             >
-              
               ✷🌌 🎀 𝒜𝒷❀𝓊𝓉 🎀 🌌✷{" "}
             </a>
           </li>
