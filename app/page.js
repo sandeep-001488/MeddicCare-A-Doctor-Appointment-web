@@ -10,20 +10,10 @@ export default function Home() {
 
 const [doctorList,setDoctorList]=useState([]);
 
-  // const getDoctorsList = () => {
-  //   GlobalApi.getDoctors()
-  //     .then((res) => {
-  //       setDoctorList(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching doctors:", error);
-  //     });
-  // };
 
   const getDoctorsList = () => {
     GlobalApi.getDoctors()
       .then((res) => {
-        console.log("API Response:", res.data); // Add this line
         setDoctorList(res.data.data);
       })
       .catch((error) => {

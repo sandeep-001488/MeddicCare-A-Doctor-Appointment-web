@@ -61,7 +61,6 @@ const DoctorList = ({ doctorList, heading = "Popular Doctors" }) => {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 mt-5">
         {doctorList && doctorList.length > 0
           ? doctorList.map((item) => {
-              // Safely access nested properties
               const imageUrl = item?.attributes?.image?.data?.attributes?.url;
               const categoryName =
                 item?.attributes?.categories?.data?.attributes?.name;

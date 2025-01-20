@@ -31,18 +31,16 @@ const BookAppointment = ({ doctorData }) => {
   // const [isLessThanCurrentTime,setIsLessThanCurrentTime]=useState(false)
 
   const convertTo24HourFormat = (time) => {
-    const [timePart, modifier] = time.split(" "); // Split into time and AM/PM
-    let [hours, minutes] = timePart.split(":").map(Number); // Split hours and minutes
+    const [timePart, modifier] = time.split(" "); 
+    let [hours, minutes] = timePart.split(":").map(Number); 
 
-    // Convert based on AM/PM
     if (modifier === "PM" && hours < 12) {
-      hours += 12; // Convert PM hours
+      hours += 12; 
     }
     if (modifier === "AM" && hours === 12) {
-      hours = 0; // Handle midnight case
+      hours = 0; 
     }
 
-    // Return time in HH:mm format
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}`;
@@ -56,7 +54,6 @@ const BookAppointment = ({ doctorData }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // console.log(moment(currentTime).format("HH:mm"));
   
 
   const savedBooking = () => {
@@ -96,29 +93,6 @@ const BookAppointment = ({ doctorData }) => {
     getTime();
   }, []);
 
-  // const getTime = () => {
-  //   const timeList = [];
-  //   for (let i = 10; i <= 12; i++) {
-
-  //     timeList.push({
-  //       time: i + ":00 AM",
-  //     });
-      
-  //     timeList.push({
-  //       time: i + ":30 AM",
-  //     });
-  //   }
-
-  //   for (let i = 1; i <= 6; i++) {
-  //     timeList.push({
-  //       time: i + ":00 PM",
-  //     });
-  //     timeList.push({
-  //       time: i + ":30 PM",
-  //     });
-  //   }
-  //   setTimeSlot(timeList);
-  // };
 
   const getTime = () => {
     const timeList = [];

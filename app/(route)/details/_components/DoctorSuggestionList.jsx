@@ -5,24 +5,21 @@ import React, { useEffect, useState } from "react";
 
 const DoctorSuggestionList = ({ category, id }) => {
   const [doctorList, setDoctorList] = useState([]);
-  
-  
+
   useEffect(() => {
     const getDoct = () => {
       GlobalApi.getDoctors().then((doctors) => {
         const fetchedDoctors = doctors.data.data;
-  
-        // Sorting logic
+            
         const sortedDoctors = fetchedDoctors.sort((a, b) => {
-          const aCategories = a.attributes.categories?.data || [];
-          const bCategories = b.attributes.categories?.data || [];
-  
-          const getCategoryName = (categories) => {
+        const aCategories = a.attributes.categories?.data || [];
+        const bCategories = b.attributes.categories?.data || [];
+        const getCategoryName = (categories) => {
             if (Array.isArray(categories)) {
               return categories.some(
                 (cat) =>
                   cat?.attributes?.name &&
-                  category && // Ensure category is defined
+                  category &&
                   cat.attributes.name.toLowerCase() === category.toLowerCase()
               );
             } else if (
@@ -30,38 +27,34 @@ const DoctorSuggestionList = ({ category, id }) => {
               categories?.attributes?.name
             ) {
               return (
-                category && // Ensure category is defined
+                category &&
                 categories.attributes.name.toLowerCase() ===
-                category.toLowerCase()
+                  category.toLowerCase()
               );
             }
             return false;
           };
-  
+
           const aIsCategory = getCategoryName(aCategories);
           const bIsCategory = getCategoryName(bCategories);
-  
+
           if (aIsCategory && !bIsCategory) {
-            return -1; // Move doctors with the specified category up
+            return -1;
           } else if (!aIsCategory && bIsCategory) {
-            return 1; // Move others down
+            return 1;
           } else {
             return 0;
           }
         });
-  
+
         setDoctorList(sortedDoctors);
-        
       });
     };
-  
-    // Only fetch doctors if the category is defined
+
     if (category) {
       getDoct();
     }
   }, [category]);
-
-   
 
   return (
     <div className="p-4 border-[1px] mt-5 md:ml-5">
