@@ -16,20 +16,17 @@
 //   const getCategoryList = () => {
 //     GlobalApi.getCategory()
 //       .then((res) => {
-//         setCategoryList(res.data.data);
+//         setCategoryList(res?.data?.data || []); 
 //       })
 //       .catch((error) => {
-//         console.error("Errorrr fetching categories:", error);
+//         console.error("Error fetching categories:", error);
 //       });
 //   };
 
 //   return (
 //     <div className="mb-10 items-center flex flex-col gap-2 px-5">
-//       <h2
-//         className="font-bold
-//        text-4xl tracking-wide"
-//       >
-//         Search <span className="text-blue-500">Doctors</span>{" "}
+//       <h2 className="font-bold text-4xl tracking-wide">
+//         Search <span className="text-blue-500">Doctors</span>
 //       </h2>
 //       <h2 className="text-gray-500 text-xl">
 //         Search and get your appointment in a click away..
@@ -40,6 +37,7 @@
 //           placeholder="Get your favourites.."
 //           className="hover:border-sky-500 text-teal-900"
 //         />
+
 //         <Button type="submit" className="bg-blue-700">
 //           Search
 //         </Button>
@@ -49,7 +47,7 @@
 //           ? categoryList.map((item) => (
 //               <Link
 //                 href={"/search/" + item.attributes.name}
-//                 key={item.id} // Use a unique id or identifier here
+//                 key={item.id}
 //                 className="flex flex-col items-center text-center gap-2 p-5 bg-blue-50 m-2 rounded-lg hover:scale-110 transition-all ease-in-out cursor-pointer"
 //               >
 //                 <Image
@@ -58,7 +56,7 @@
 //                   height={40}
 //                   alt="icon_img"
 //                 />
-//                 <label className="text-blue-600 text-s ">
+//                 <label className="text-blue-600 text-s">
 //                   {item?.attributes?.name}
 //                 </label>
 //               </Link>
@@ -93,8 +91,7 @@ const CategorySearch = () => {
   const getCategoryList = () => {
     GlobalApi.getCategory()
       .then((res) => {
-        console.log("Category Response:", res);
-        setCategoryList(res.data?.data || []); 
+        setCategoryList(res?.data?.data || []);
       })
       .catch((error) => {
         console.error("Error fetching categories:", error);
@@ -121,28 +118,39 @@ const CategorySearch = () => {
       </div>
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-5">
         {categoryList.length > 0
-          ? categoryList.map((item) => (
-              <Link
-                href={"/search/" + item.attributes.name}
-                key={item.id}
-                className="flex flex-col items-center text-center gap-2 p-5 bg-blue-50 m-2 rounded-lg hover:scale-110 transition-all ease-in-out cursor-pointer"
-              >
-                <Image
-                  src={item.attributes?.icon?.data?.attributes?.url}
-                  width={40}
-                  height={40}
-                  alt="icon_img"
-                />
-                <label className="text-blue-600 text-s">
-                  {item?.attributes?.name}
-                </label>
-              </Link>
-            ))
+          ? categoryList.map((item) => {
+              const iconUrl = item?.attributes?.icon?.data?.attributes?.url;
+              const categoryName = item?.attributes?.name;
+
+              return (
+                <Link
+                  href={"/search/" + categoryName}
+                  key={item.id}
+                  className="flex flex-col items-center text-center gap-2 p-5 bg-blue-50 m-2 rounded-lg hover:scale-110 transition-all ease-in-out cursor-pointer"
+                >
+                  {iconUrl ? (
+                    <Image
+                      src={iconUrl}
+                      width={40}
+                      height={40}
+                      alt={categoryName || "category icon"}
+                    />
+                  ) : (
+                    <div className="w-[40px] h-[40px] bg-slate-200 rounded-full" />
+                  )}
+                  {categoryName && (
+                    <label className="text-blue-600 text-s">
+                      {categoryName}
+                    </label>
+                  )}
+                </Link>
+              );
+            })
           : [1, 2, 3, 4, 5, 6].map((item) => (
               <div
                 key={item}
-                className="h-[130px] w-[120px] m-2 bg-slate-100 animate-pulse rounded-lg "
-              ></div>
+                className="h-[130px] w-[120px] m-2 bg-slate-100 animate-pulse rounded-lg"
+              />
             ))}
       </div>
     </div>
