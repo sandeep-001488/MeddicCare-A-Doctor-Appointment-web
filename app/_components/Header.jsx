@@ -22,14 +22,14 @@ const Header = () => {
     },
     {
       id: 2,
-      name: "Contact Us",
-      path: "/contact",
+      name: "Contact",
+      path: "https://unveiling-sandeep-horizon.netlify.app/",
     },
     {
-      id:3,
-      name:"Bookings",
-      path:"/my-booking"
-    }
+      id: 3,
+      name: "Bookings",
+      path: "/my-booking",
+    },
   ];
 
   const { user } = useKindeBrowserClient();
@@ -40,13 +40,13 @@ const Header = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-10">
           <Link href="/">
-          <Image
-            src="/logo.svg"
-            alt="logo"
-            width={120}
-            height={80}
-            color="teal"
-          />
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              width={120}
+              height={80}
+              color="teal"
+            />
           </Link>
 
           <ul className="md:flex gap-8 hidden">
@@ -55,7 +55,12 @@ const Header = () => {
                 key={item.id}
                 className="hover:text-blue-700 hover:scale-110 transition-all ease-in cursor-pointer"
               >
-                <Link href={item.path}>{item.name}</Link>
+                <Link
+                  href={item.path}
+                  target={item.name === "Contact" ? "_blank" : undefined}
+                >
+                  {item.name}
+                </Link>
               </li>
             ))}
           </ul>
