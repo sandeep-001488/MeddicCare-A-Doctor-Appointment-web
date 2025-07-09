@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -202,26 +201,24 @@ const BookAppointment = ({ doctorData }) => {
           value={note}
           onChange={(e) => setNote(e.target.value)}
         />
-        <DialogFooter className="sm:justify-end">
+        <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-end">
           <DialogClose asChild>
-            <>
-              <Button
-                type="button"
-                variant="outline"
-                className="text-red-500 border-red-500 cursor-pointer"
-              >
-                Close
-              </Button>
-              <Button
-                type="button"
-                className="bg-blue-500"
-                disabled={!(date && selectedTimeSlot)}
-                onClick={savedBooking}
-              >
-                Submit
-              </Button>
-            </>
+            <Button
+              type="button"
+              variant="outline"
+              className="text-red-500 border-red-500 cursor-pointer w-full sm:w-auto"
+            >
+              Close
+            </Button>
           </DialogClose>
+          <Button
+            type="button"
+            className="bg-blue-500 w-full sm:w-auto"
+            disabled={!(date && selectedTimeSlot)}
+            onClick={savedBooking}
+          >
+            Submit
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
