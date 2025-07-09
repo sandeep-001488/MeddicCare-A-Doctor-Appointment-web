@@ -64,7 +64,6 @@ function DoctorDetails({ doctorData }) {
               </a>
             ))}
           </div>
-          {/* <Button className="mt-3 rounded-full bg-blue-500 hover:bg-red-600">Book Appointment</Button> */}
           <BookAppointment doctorData={doctorData} />
         </div>
       </div>

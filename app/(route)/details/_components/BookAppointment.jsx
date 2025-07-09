@@ -104,12 +104,12 @@ const BookAppointment = ({ doctorData }) => {
           Book Appointment
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="max-h-[90vh] max-w-[95vw] md:max-w-[600px] overflow-hidden flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle>Book Slot..</DialogTitle>
           <DialogDescription>
-            <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
+            <div className="max-h-[60vh] md:max-h-[70vh] overflow-y-auto pr-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-4">
                 {/* calendar */}
                 <div className="flex flex-col gap-3 items-baseline">
                   <h2 className="flex gap-2 items-center">
@@ -121,7 +121,7 @@ const BookAppointment = ({ doctorData }) => {
                     selected={date}
                     onSelect={setDate}
                     disabled={isPastDay}
-                    className={`rounded-md border`}
+                    className="rounded-md border w-full"
                   />
                 </div>
                 {/* time slot */}
@@ -130,7 +130,7 @@ const BookAppointment = ({ doctorData }) => {
                     <Clock className="text-blue-500 h-5 w-5" />
                     Select Time Slot
                   </h2>
-                  <div className="grid grid-cols-3 gap-3 border rounded-lg p-5 mt-1">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 border rounded-lg p-3 mt-1">
                     {timeSlot?.map((item, index) => {
                       const isSameDay = moment(date).isSame(new Date(), "day");
                       const isPastTime =
@@ -171,7 +171,7 @@ const BookAppointment = ({ doctorData }) => {
                       return (
                         <h2
                           key={index}
-                          className={`p-2 border rounded-full text-center cursor-pointer ${
+                          className={`p-2 border rounded-full text-center cursor-pointer text-sm ${
                             item.time === selectedTimeSlot
                               ? "bg-blue-500 text-white"
                               : ""
@@ -191,17 +191,21 @@ const BookAppointment = ({ doctorData }) => {
                   </div>
                 </div>
               </div>
+
+              <div className="mt-4">
+                <textarea
+                  className="border-[1px] border-blue-500 h-[60px] p-2 w-full resize-none rounded-md"
+                  placeholder="Any message..."
+                  rows="3"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                />
+              </div>
             </div>
           </DialogDescription>
         </DialogHeader>
-        <textarea
-          className="border-[1px] border-blue-500 h-[60px] p-1 w-full resize-none"
-          placeholder="Any message..."
-          rows="8"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
-        <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+
+        <DialogFooter className="flex-shrink-0 mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end border-t pt-4">
           <DialogClose asChild>
             <Button
               type="button"
