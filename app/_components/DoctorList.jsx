@@ -6,7 +6,7 @@ const DoctorList = ({ doctorList, heading = "Popular Doctors" }) => {
   return (
     <div className="mb-10 px-8">
       <h2 className="font-bold text-3xl">{heading}</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 mt-5">
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 mt-5">
         {doctorList && doctorList.length > 0
           ? doctorList.map((item) => {
               const imageUrl = item?.attributes?.image?.data?.attributes?.url;

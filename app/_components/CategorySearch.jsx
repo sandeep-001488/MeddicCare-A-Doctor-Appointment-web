@@ -41,7 +41,7 @@ const CategorySearch = () => {
           Search
         </Button>
       </div>
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-5">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 mt-5">
         {categoryList.length > 0
           ? categoryList.map((item) => {
               const iconUrl = item?.attributes?.icon?.data?.attributes?.url;

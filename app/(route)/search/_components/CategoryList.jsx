@@ -19,11 +19,11 @@ import { usePathname } from "next/navigation";
 
 function CategoryList() {
   const [categoryList, setCategoryList] = useState([]);
-  const params = usePathname();
-  const category = params.split("/")[2];
+const params=usePathname();
+const category=params.split('/')[2]
 
   useEffect(() => {
-    getCategoryList();
+    getCategoryList();    
   }, []);
 
   const getCategoryList = () => {
@@ -35,37 +35,54 @@ function CategoryList() {
         console.error("Error fetching categories:", error);
       });
   };
-
   return (
-    <div className="h-screen mt-5">
-      <Command className="h-full flex flex-col">
-        <CommandInput
-          placeholder="Type a command or search..."
-          className="flex-shrink-0"
-        />
-
-        <CommandList className="flex-1 overflow-y-auto">
+    <div className="h-screen mt-5 flex flex-col">
+      <Command>
+        <CommandInput placeholder="Type a command or search..." />
+        {/* <CommandList className="overflow-visible">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {categoryList &&
               categoryList.map((item, index) => (
                 <CommandItem key={index}>
-                  <Link
-                    href={`/search/${item.attributes.name}`}
-                    className={`p-2 flex gap-5 items-center text-[12px] text-blue-500 rounded-md cursor-pointer w-full ${
-                      category === item.attributes.name && "bg-blue-100"
-                    }`}
-                  >
+                  <Link href={"/search/"+item.attributes.name} className={`p-2 flex gap-5 items-center text-[12px] text-blue-500  rounded-md cursor-pointer w-full ${category==item.attributes.name && 'bg-blue-100'}`} >
                     <Image
                       src={item.attributes?.icon?.data?.attributes?.url}
                       height={25}
                       width={25}
                       alt="icon"
                     />
-                    <label>{item.attributes.name}</label>
+                    <label> {item.attributes.name} </label>
                   </Link>
                 </CommandItem>
               ))}
+          </CommandGroup>
+          <CommandSeparator />
+        </CommandList> */}
+        <CommandList className="overflow-y-auto overflow-x-hidden max-h-[500px]">
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            {categoryList &&
+              categoryList
+                .slice(0, 9) // ✅ Limit to first 9 suggestions
+                .map((item, index) => (
+                  <CommandItem key={index}>
+                    <Link
+                      href={"/search/" + item.attributes.name}
+                      className={`p-2 flex gap-5 items-center text-[12px] text-blue-500 rounded-md cursor-pointer w-full ${
+                        category === item.attributes.name ? "bg-blue-100" : ""
+                      }`}
+                    >
+                      <Image
+                        src={item.attributes?.icon?.data?.attributes?.url}
+                        height={25}
+                        width={25}
+                        alt="icon"
+                      />
+                      <label>{item.attributes.name}</label>
+                    </Link>
+                  </CommandItem>
+                ))}
           </CommandGroup>
           <CommandSeparator />
         </CommandList>
