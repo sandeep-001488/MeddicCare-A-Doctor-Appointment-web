@@ -61,14 +61,15 @@ const category=params.split('/')[2]
     //     </CommandList>
     //   </Command>
     // </div>
-    <div className="h-screen mt-5 flex flex-col">
+    <div className="h-screen mt-5 flex flex-col overflow-hidden">
       <Command className="flex flex-col flex-1">
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput
+          placeholder="Type a command or search..."
+          className="sticky top-0 z-10 bg-white"
+        />
 
-        {/* Scrollable area starts here */}
-        <CommandList className="overflow-auto flex-1">
+        <CommandList className="overflow-y-auto overflow-x-hidden flex-1">
           <CommandEmpty>No results found.</CommandEmpty>
-
           <CommandGroup heading="Suggestions">
             {categoryList &&
               categoryList.map((item, index) => (
@@ -85,7 +86,7 @@ const category=params.split('/')[2]
                       width={25}
                       alt="icon"
                     />
-                    <label> {item.attributes.name} </label>
+                    <label>{item.attributes.name}</label>
                   </Link>
                 </CommandItem>
               ))}
