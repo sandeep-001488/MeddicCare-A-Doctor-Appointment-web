@@ -19,11 +19,11 @@ import { usePathname } from "next/navigation";
 
 function CategoryList() {
   const [categoryList, setCategoryList] = useState([]);
-const params=usePathname();
-const category=params.split('/')[2]
+  const params = usePathname();
+  const category = params.split("/")[2];
 
   useEffect(() => {
-    getCategoryList();    
+    getCategoryList();
   }, []);
 
   const getCategoryList = () => {
@@ -35,40 +35,16 @@ const category=params.split('/')[2]
         console.error("Error fetching categories:", error);
       });
   };
+
   return (
-    // <div className="h-screen mt-5 flex flex-col">
-    //   <Command>
-    //     <CommandInput placeholder="Type a command or search..." />
-    //     <CommandList className="overflow-visible">
-    //       <CommandEmpty>No results found.</CommandEmpty>
-    //       <CommandGroup heading="Suggestions">
-    //         {categoryList &&
-    //           categoryList.map((item, index) => (
-    //             <CommandItem key={index}>
-    //               <Link href={"/search/"+item.attributes.name} className={`p-2 flex gap-5 items-center text-[12px] text-blue-500  rounded-md cursor-pointer w-full ${category==item.attributes.name && 'bg-blue-100'}`} >
-    //                 <Image
-    //                   src={item.attributes?.icon?.data?.attributes?.url}
-    //                   height={25}
-    //                   width={25}
-    //                   alt="icon"
-    //                 />
-    //                 <label> {item.attributes.name} </label>
-    //               </Link>
-    //             </CommandItem>
-    //           ))}
-    //       </CommandGroup>
-    //       <CommandSeparator />
-    //     </CommandList>
-    //   </Command>
-    // </div>
-    <div className="h-screen mt-5 flex flex-col overflow-hidden">
-      <Command className="flex flex-col flex-1">
+    <div className="h-screen mt-5">
+      <Command className="h-full flex flex-col">
         <CommandInput
           placeholder="Type a command or search..."
-          className="sticky top-0 z-10 bg-white"
+          className="flex-shrink-0"
         />
 
-        <CommandList className="overflow-y-auto overflow-x-hidden flex-1">
+        <CommandList className="flex-1 overflow-y-auto">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {categoryList &&
