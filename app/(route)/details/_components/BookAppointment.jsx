@@ -29,15 +29,12 @@ const BookAppointment = ({ doctorData }) => {
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000); 
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  
 
   const savedBooking = () => {
     const data = {
@@ -98,7 +95,6 @@ const BookAppointment = ({ doctorData }) => {
     setDate(hasFutureSlotToday ? new Date() : moment().add(1, "day").toDate());
   };
 
-
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger>
@@ -136,12 +132,42 @@ const BookAppointment = ({ doctorData }) => {
                     Select Time Slot
                   </h2>
                   <div className="grid grid-cols-3 gap-3 border rounded-lg p-5 mt-1">
-                   
                     {timeSlot?.map((item, index) => {
                       const isSameDay = moment(date).isSame(new Date(), "day");
-                      const isDisabled =
+                      const isPastTime =
                         isSameDay &&
                         moment(currentTime).format("HH:mm") > item.time;
+
+                      let isOutsideDoctorTime = false;
+
+                      if (
+                        doctorData?.attributes?.start_time &&
+                        doctorData?.attributes?.end_time
+                      ) {
+                        let doctorStart = moment(
+                          doctorData.attributes.start_time,
+                          "HH:mm:ss"
+                        );
+                        let doctorEnd = moment(
+                          doctorData.attributes.end_time,
+                          "HH:mm:ss"
+                        );
+
+                        if (doctorEnd.isBefore(doctorStart)) {
+                          const endHours = doctorEnd.hours();
+                          if (endHours < 12) {
+                            doctorEnd = doctorEnd.add(12, "hours");
+                          }
+                        }
+
+                        const slotTime = moment(item.time, "HH:mm");
+
+                        isOutsideDoctorTime =
+                          slotTime.isBefore(doctorStart) ||
+                          slotTime.isAfter(doctorEnd);
+                      }
+
+                      const isDisabled = isPastTime || isOutsideDoctorTime;
 
                       return (
                         <h2
