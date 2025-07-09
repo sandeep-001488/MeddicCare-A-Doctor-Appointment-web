@@ -178,22 +178,12 @@ const BookAppointment = ({ doctorData }) => {
                     Select Time Slot
                   </h2>
                   <div className="grid grid-cols-3 gap-3 border rounded-lg p-5 mt-1">
-                    {/* {timeSlot?.map((item, index) => (
-                      <h2
-                        key={index}
-                        className={`p-2 border rounded-full text-center hover:bg-blue-500 hover:text-white cursor-pointer ${
-                          item.time === selectedTimeSlot
-                            ? "bg-blue-500 text-white"
-                            : ""
-                        }`}
-                        onClick={() => setSelectedTimeSlot(item.time)}
-                      >
-                        {item.time}
-                      </h2>
-                    ))} */}
+                   
                     {timeSlot?.map((item, index) => {
+                      const isSameDay = moment(date).isSame(new Date(), "day");
                       const isDisabled =
-                        moment(currentTime).format("HH:mm") > item.time; // Compare current time
+                        isSameDay &&
+                        moment(currentTime).format("HH:mm") > item.time;
 
                       return (
                         <h2
