@@ -28,23 +28,6 @@ const BookAppointment = ({ doctorData }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(new Date());
-  // const [isLessThanCurrentTime,setIsLessThanCurrentTime]=useState(false)
-
-  const convertTo24HourFormat = (time) => {
-    const [timePart, modifier] = time.split(" "); 
-    let [hours, minutes] = timePart.split(":").map(Number); 
-
-    if (modifier === "PM" && hours < 12) {
-      hours += 12; 
-    }
-    if (modifier === "AM" && hours === 12) {
-      hours = 0; 
-    }
-
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
-  };
 
 
   useEffect(() => {
@@ -93,51 +76,26 @@ const BookAppointment = ({ doctorData }) => {
     getTime();
   }, []);
 
-
   const getTime = () => {
     const timeList = [];
-    for (let i = 10; i <= 11; i++) {
-      const time1 = convertTo24HourFormat(i + ":00 AM");
-      const time2 = convertTo24HourFormat(i + ":30 AM");
 
-      timeList.push({
-        time: time1,
-        displayTime: i + ":00 AM",
-      });
-      timeList.push({
-        time: time2,
-        displayTime: i + ":30 AM",
-      });
+    for (let hour = 10; hour <= 18; hour++) {
+      for (let minute of [0, 30]) {
+        const time = moment({ hour, minute });
+        timeList.push({
+          time: time.format("HH:mm"),
+          displayTime: time.format("h:mm A"),
+        });
+      }
     }
-    
-     for (let i = 12; i <= 12; i++) {
-       const time1 = convertTo24HourFormat(i + ":00 PM");
-       const time2 = convertTo24HourFormat(i + ":30 PM");
 
-       timeList.push({
-         time: time1,
-         displayTime: i + ":00 PM",
-       });
-       timeList.push({
-         time: time2,
-         displayTime: i + ":30 PM",
-       });
-     }
-
-    for (let i = 1; i <= 6; i++) {
-      const time1 = convertTo24HourFormat(i + ":00 PM");
-      const time2 = convertTo24HourFormat(i + ":30 PM");
-
-      timeList.push({
-        time: time1,
-        displayTime: i + ":00 PM",
-      });
-      timeList.push({
-        time: time2,
-        displayTime: i + ":30 PM",
-      });
-    }
     setTimeSlot(timeList);
+
+    const currentTimeStr = moment().format("HH:mm");
+    const hasFutureSlotToday = timeList.some(
+      (item) => item.time > currentTimeStr
+    );
+    setDate(hasFutureSlotToday ? new Date() : moment().add(1, "day").toDate());
   };
 
 

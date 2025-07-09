@@ -12,7 +12,6 @@ const MyBooking = () => {
   useEffect(() => {
     const getUserBookingsList = () => {
       GlobalApi.getUserBookingList(user?.email).then((res) => {
-        // console.log(res.data.data);
         setBookingList(res.data.data);
       });
     };
@@ -20,18 +19,28 @@ const MyBooking = () => {
   }, [user]);
   const filterUserBooking = (type) => {
     const now = new Date();
+
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  
     const result = bookingList.filter((item) => {
       const bookingDate = new Date(item.attributes.date);
 
+      const bookingDateOnly = new Date(
+        bookingDate.getFullYear(),
+        bookingDate.getMonth(),
+        bookingDate.getDate()
+      );
+
+      
       if (type === "upcoming") {
-        return bookingDate >= now;
+        return bookingDateOnly >= today;
       } else if (type === "expired") {
-        return bookingDate < now;
+        return bookingDateOnly < today;
       }
       return false;
     });
 
-    // console.log(result);
     return result;
   };
 
@@ -47,10 +56,9 @@ const MyBooking = () => {
           </TabsTrigger>
 
           <TabsTrigger value="expired">
-            <Button
-            className="border-red-600 font-bold bg-red-500 hover:bg-pink-500"
-
-            >Expired</Button>
+            <Button className="border-red-600 font-bold bg-red-500 hover:bg-pink-500">
+              Expired
+            </Button>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming">

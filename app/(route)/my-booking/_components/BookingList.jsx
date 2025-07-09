@@ -9,11 +9,10 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 const BookingList = ({ bookingList, expired }) => {
-  // console.log(bookingList);
+ 
 
   const onCancelBooking = (item) => {
     GlobalApi.cancelAppointment(item.id).then((res) => {
-      console.log(res);
       if (res) {
         toast("Booking Cancelled successfully", {
           style: {
