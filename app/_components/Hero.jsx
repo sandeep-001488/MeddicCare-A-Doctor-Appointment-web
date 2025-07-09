@@ -12,7 +12,7 @@ function Hero() {
               alt=""
               width={800}
               height={800}
-              src="/doctors1.png"
+              src="/doctor_hero.jpg"
               className="absolute inset-0 h-full w-full object-cover rounded-3xl"
             />
           </div>
