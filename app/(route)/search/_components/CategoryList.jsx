@@ -37,9 +37,9 @@ const category=params.split('/')[2]
   };
   return (
     <div className="h-screen mt-5 flex flex-col">
-      <Command>
+      {/* <Command>
         <CommandInput placeholder="Type a command or search..." />
-        {/* <CommandList className="overflow-visible">
+        <CommandList className="overflow-visible">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {categoryList &&
@@ -58,14 +58,20 @@ const category=params.split('/')[2]
               ))}
           </CommandGroup>
           <CommandSeparator />
-        </CommandList> */}
-        <CommandList className="overflow-y-auto overflow-x-hidden max-h-[500px]">
+        </CommandList>
+        
+      </Command> */}
+      <Command>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList className="overflow-y-auto overflow-x-hidden max-h-[calc(100vh-200px)]">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {categoryList &&
-              categoryList
-                .slice(0, 9) // ✅ Limit to first 9 suggestions
-                .map((item, index) => (
+              categoryList.map(
+                (
+                  item,
+                  index // ✅ Show ALL items, not just slice(0, 9)
+                ) => (
                   <CommandItem key={index}>
                     <Link
                       href={"/search/" + item.attributes.name}
@@ -82,7 +88,8 @@ const category=params.split('/')[2]
                       <label>{item.attributes.name}</label>
                     </Link>
                   </CommandItem>
-                ))}
+                )
+              )}
           </CommandGroup>
           <CommandSeparator />
         </CommandList>
